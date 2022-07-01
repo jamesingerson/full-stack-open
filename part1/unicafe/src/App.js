@@ -4,7 +4,7 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const Counter = ({ value, text }) => (
+const Statistic = ({ value, text }) => (
   <p>
     {text} {value}
   </p>
@@ -20,6 +20,10 @@ const App = () => {
   const neutralFeedback = () => setNeutral(neutral + 1);
   const badFeedback = () => setBad(bad + 1);
 
+  const sum = good + neutral + bad;
+  const average = (good - bad) / sum;
+  const positive = (good / sum) * 100;
+
   return (
     <div>
       <h1>give feedback</h1>
@@ -27,9 +31,12 @@ const App = () => {
       <Button handleClick={neutralFeedback} text="neutral" />
       <Button handleClick={badFeedback} text="bad" />
       <h1>statistics</h1>
-      <Counter value={good} text="good" />
-      <Counter value={neutral} text="neutral" />
-      <Counter value={bad} text="bad" />
+      <Statistic value={good} text="good" />
+      <Statistic value={neutral} text="neutral" />
+      <Statistic value={bad} text="bad" />
+      <Statistic value={sum} text="all" />
+      <Statistic value={average} text="average" />
+      <Statistic value={positive + " %"} text="positive" />
     </div>
   );
 };
