@@ -20,7 +20,11 @@ const App = () => {
     if (persons.find((person) => person.name === newName)) {
       alert(`${newName} is already added to phonebook`);
     } else {
-      const newPerson = { name: newName, number: newNumber };
+      const newPerson = {
+        name: newName,
+        number: newNumber,
+        id: persons.length + 1,
+      };
       setPersons(persons.concat(newPerson));
       setNewName("");
       setNewNumber("");
@@ -60,7 +64,7 @@ const App = () => {
       />
       <h2>Numbers</h2>
       {personsToDisplay.map((person) => (
-        <Person key={person.name} person={person} />
+        <Person key={person.id} person={person} />
       ))}
     </div>
   );
