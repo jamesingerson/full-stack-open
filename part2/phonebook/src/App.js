@@ -35,6 +35,14 @@ const App = () => {
     }
   };
 
+  const removePerson = (person) => {
+    if (window.confirm(`Delete ${person.name} from the Phonebook?`)) {
+      personsService.remove(person.id).then(() => {
+        setPersons(persons.filter((p) => p.id !== person.id));
+      });
+    }
+  };
+
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
@@ -68,7 +76,7 @@ const App = () => {
       />
       <h2>Numbers</h2>
       {personsToDisplay.map((person) => (
-        <Person key={person.id} person={person} />
+        <Person key={person.id} person={person} removePerson={removePerson} />
       ))}
     </div>
   );
