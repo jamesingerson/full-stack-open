@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import Weather from "./Weather";
+
 const CountryDetails = ({ country }) => {
   const [weather, setWeather] = useState([]);
 
@@ -12,7 +14,7 @@ const CountryDetails = ({ country }) => {
       .then((response) => {
         setWeather(response.data);
       });
-  }, []);
+  }, [country.capital, country.cca2]);
 
   return (
     <>
@@ -26,18 +28,11 @@ const CountryDetails = ({ country }) => {
         ))}
       </ul>
       <span style={{ fontSize: "20em" }}>{country.flag}</span>
-      {weather.weather !== undefined ? (
+      {weather.weather && (
         <>
           <h1>Weather in {country.capital}</h1>
-          <p>Temperature {weather.main.temp} celcius</p>
-          <img
-            src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-            alt="Icon depicting weather condition in the area"
-          ></img>
-          <p>Wind speed {weather.wind.speed} m/s</p>
+          <Weather weather={weather} />
         </>
-      ) : (
-        ""
       )}
     </>
   );
