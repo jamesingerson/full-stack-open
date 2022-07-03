@@ -23,7 +23,6 @@ const App = () => {
   }, []);
 
   function showNotification(message, status) {
-    console.log(message, status);
     setNotification({ message, status });
     setTimeout(() => setNotification(null), 5000);
   }
