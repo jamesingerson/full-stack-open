@@ -33,7 +33,12 @@ const App = () => {
         <CountryDetails country={countriesToDisplay[0]} />
       ) : countriesToDisplay.length <= 10 ? (
         countriesToDisplay.map((country) => (
-          <Country key={country.cca3} country={country} />
+          <div key={country.cca3}>
+            <Country country={country} />
+            <button onClick={() => setNewFilter(country.name.common)}>
+              show
+            </button>
+          </div>
         ))
       ) : (
         <p>Too many matches, specify another filter</p>

@@ -1,3 +1,3 @@
-const Country = ({ country }) => <p>{country.name.common}</p>;
+const Country = ({ country }) => <>{country.name.common}</>;
 
 export default Country;
