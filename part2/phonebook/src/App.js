@@ -14,7 +14,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setNewFilter] = useState("");
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     personsService
@@ -22,9 +22,10 @@ const App = () => {
       .then((initialPersons) => setPersons(initialPersons));
   }, []);
 
-  function showSuccessMessage(message) {
-    setSuccessMessage(message);
-    setTimeout(() => setSuccessMessage(null), 5000);
+  function showNotification(message, status) {
+    console.log(message, status);
+    setNotification({ message, status });
+    setTimeout(() => setNotification(null), 5000);
   }
 
   const addPerson = (event) => {
@@ -47,7 +48,7 @@ const App = () => {
             );
             setNewName("");
             setNewNumber("");
-            showSuccessMessage(`${returnedPerson.name} updated.`);
+            showNotification(`${returnedPerson.name} updated.`, "success");
           });
       }
     } else {
@@ -59,16 +60,22 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName("");
         setNewNumber("");
-        showSuccessMessage(`${returnedPerson.name} added.`);
+        showNotification(`${returnedPerson.name} added.`, "success");
       });
     }
   };
 
   const removePerson = (person) => {
     if (window.confirm(`Delete ${person.name} from the Phonebook?`)) {
-      personsService.remove(person.id).then(() => {
-        setPersons(persons.filter((p) => p.id !== person.id));
-      });
+      personsService
+        .remove(person.id)
+        .then(() => {
+          setPersons(persons.filter((p) => p.id !== person.id));
+        })
+        .catch(() => {
+          showNotification(`${person.name} already deleted.`, "error");
+          setPersons(persons.filter((p) => p.id !== person.id));
+        });
     }
   };
 
@@ -94,7 +101,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={successMessage} />
+      <Notification notification={notification} />
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h2>New Entry</h2>
       <PersonForm
