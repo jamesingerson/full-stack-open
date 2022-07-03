@@ -2,21 +2,30 @@ import { useState, useEffect } from "react";
 
 import personsService from "./services/persons";
 
+import Notification from "./components/Notification";
 import Person from "./components/Person";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
+
+import "./index.css";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setNewFilter] = useState("");
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     personsService
       .getAll()
       .then((initialPersons) => setPersons(initialPersons));
   }, []);
+
+  function showSuccessMessage(message) {
+    setSuccessMessage(message);
+    setTimeout(() => setSuccessMessage(null), 5000);
+  }
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -38,6 +47,7 @@ const App = () => {
             );
             setNewName("");
             setNewNumber("");
+            showSuccessMessage(`${returnedPerson.name} updated.`);
           });
       }
     } else {
@@ -49,6 +59,7 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName("");
         setNewNumber("");
+        showSuccessMessage(`${returnedPerson.name} added.`);
       });
     }
   };
@@ -83,6 +94,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={successMessage} />
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h2>New Entry</h2>
       <PersonForm
