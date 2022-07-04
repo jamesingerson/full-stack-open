@@ -25,4 +25,4 @@ yarn-error.log*
 
 # follow-along of the course content
 /notes
-/notes-server
+/notes-backend
