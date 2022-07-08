@@ -25,3 +25,13 @@ GET http://localhost:3001/unknown/end/point/
 ###
 
 DELETE http://localhost:3001/api/persons/2
+
+###
+
+PUT http://localhost:3001/api/persons/62c778538b7097455a33ae90 HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Mi",
+  "number": "041-9483575"
+}

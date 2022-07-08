@@ -55,12 +55,17 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      personsService.create(newPerson).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setNewName("");
-        setNewNumber("");
-        showNotification(`${returnedPerson.name} added.`, "success");
-      });
+      personsService
+        .create(newPerson)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setNewName("");
+          setNewNumber("");
+          showNotification(`${returnedPerson.name} added.`, "success");
+        })
+        .catch((error) => {
+          showNotification(`${error.response.data.error}`, "error");
+        });
     }
   };
 
