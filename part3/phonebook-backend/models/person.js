@@ -14,8 +14,19 @@ mongoose
   });
 
 const personSchema = new mongoose.Schema({
-  name: { type: String, minLength: 3, required: true },
-  number: { type: String, required: true },
+  name: { type: String, minLength: 3, required: true, unique: true },
+  number: {
+    type: String,
+    validate: {
+      validator: (v) => {
+        // min length will ensure suffix of appropriate length
+        return /^\d{2,3}-\d+$/.test(v);
+      },
+      message: (props) => `${props.value} phone number format not recognised`,
+    },
+    minLength: 8,
+    required: true,
+  },
   date: Date,
 });
 

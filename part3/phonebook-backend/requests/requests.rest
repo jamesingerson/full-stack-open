@@ -24,7 +24,7 @@ GET http://localhost:3001/unknown/end/point/
 
 ###
 
-DELETE http://localhost:3001/api/persons/2
+DELETE http://localhost:3001/api/persons/62c7bbab2a6c827ea4ef9dda
 
 ###
 

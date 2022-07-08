@@ -19,8 +19,6 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body")
 );
 
-//let persons = [];
-
 app.get("/info", (request, response) => {
   Person.countDocuments({}, (error, count) => {
     response.send(
@@ -58,23 +56,19 @@ app.delete("/api/persons/:id", (request, response, next) => {
 });
 
 app.post("/api/persons", (request, response, next) => {
-  const body = request.body;
+  const { name, number } = request.body;
 
-  if (!body.name) {
+  if (!name) {
     return response.status(400).json({ error: "No name provided" });
   }
 
-  if (!body.number) {
+  if (!number) {
     return response.status(400).json({ error: "No number provided" });
   }
 
-  // if (persons.find((person) => person.name === body.name) !== undefined) {
-  //   return response.status(409).json({ error: "Person already in Phonebook" });
-  // }
-
   const person = new Person({
-    name: body.name,
-    number: body.number,
+    name,
+    number,
   });
 
   person
@@ -107,9 +101,17 @@ app.use(unknownEndpoint);
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
+  console.log("###############################");
+  console.error(error.name, error);
+  console.log("###############################");
+  console.error(error.code);
 
   if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformed id" });
+    return response.status(400).send({ error: "Malformed id" });
+  } else if (error.code === 11000) {
+    return response
+      .status(409)
+      .json({ error: "Entry for that name already exists" });
   } else if (error.name === "ValidationError") {
     return response.status(400).json({ error: error.message });
   }
