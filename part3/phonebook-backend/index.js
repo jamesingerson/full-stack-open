@@ -19,12 +19,14 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body")
 );
 
-let persons = [];
+//let persons = [];
 
 app.get("/info", (request, response) => {
-  response.send(
-    `<p>Phonebook has info for ${persons.length} people</p><p>${new Date()}</p>`
-  );
+  Person.countDocuments({}, (error, count) => {
+    response.send(
+      `<p>Phonebook has info for ${count} people</p><p>${new Date()}</p>`
+    );
+  });
 });
 
 app.get("/api/persons", (request, response, next) => {
@@ -66,9 +68,9 @@ app.post("/api/persons", (request, response, next) => {
     return response.status(400).json({ error: "No number provided" });
   }
 
-  if (persons.find((person) => person.name === body.name) !== undefined) {
-    return response.status(409).json({ error: "Person already in Phonebook" });
-  }
+  // if (persons.find((person) => person.name === body.name) !== undefined) {
+  //   return response.status(409).json({ error: "Person already in Phonebook" });
+  // }
 
   const person = new Person({
     name: body.name,
