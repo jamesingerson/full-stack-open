@@ -75,12 +75,12 @@ describe("total likes", () => {
     expect(result).toBe(5);
   });
 
-  test("when list has only no blogs, there should be no likes", () => {
+  test("when list has no blogs, there are no likes", () => {
     const result = listHelper.totalLikes(listWithNoBlogs);
     expect(result).toBe(0);
   });
 
-  test("when list has many, total likes should be the sum", () => {
+  test("when list has many blogs, total likes should be the sum of all", () => {
     const result = listHelper.totalLikes(listWithManyBlogs);
     expect(result).toBe(36);
   });
