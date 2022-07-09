@@ -19,11 +19,23 @@ const favouriteBlog = (blogs) => {
 };
 
 const mostBlogs = (blogs) => {
-  return 1;
+  if (blogs.length === 0) {
+    return {};
+  }
+  const authors = blogs.map((blog) => blog.author);
+  const blogCount = authors.reduce((blogCount, author) => {
+    return (blogCount[author] = (blogCount[author] || 0) + 1), blogCount;
+  }, {});
+  const topAuthor = Object.keys(blogCount).reduce((a, b) =>
+    blogCount[a] > blogCount[b] ? a : b
+  );
+  return { author: topAuthor, blogs: blogCount[topAuthor] };
 };
 
 const mostLikes = (blogs) => {
-  return 1;
+  if (blogs.length === 0) {
+    return {};
+  }
 };
 
 module.exports = {
