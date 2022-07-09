@@ -18,8 +18,18 @@ const favouriteBlog = (blogs) => {
   };
 };
 
+const mostBlogs = (blogs) => {
+  return 1;
+};
+
+const mostLikes = (blogs) => {
+  return 1;
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favouriteBlog,
+  mostBlogs,
+  mostLikes,
 };

@@ -65,31 +65,26 @@ const listWithManyBlogs = [
 ];
 
 test("dummy returns one", () => {
-  const result = listHelper.dummy(listWithNoBlogs);
-  expect(result).toBe(1);
+  expect(listHelper.dummy(listWithNoBlogs)).toBe(1);
 });
 
 describe("total likes", () => {
   test("when list has only one blog, equals the likes of that", () => {
-    const result = listHelper.totalLikes(listWithOneBlog);
-    expect(result).toBe(5);
+    expect(listHelper.totalLikes(listWithOneBlog)).toBe(5);
   });
 
   test("when list has no blogs, there are no likes", () => {
-    const result = listHelper.totalLikes(listWithNoBlogs);
-    expect(result).toBe(0);
+    expect(listHelper.totalLikes(listWithNoBlogs)).toBe(0);
   });
 
   test("when list has many blogs, total likes should be the sum of all", () => {
-    const result = listHelper.totalLikes(listWithManyBlogs);
-    expect(result).toBe(36);
+    expect(listHelper.totalLikes(listWithManyBlogs)).toBe(36);
   });
 });
 
 describe("favourite blog", () => {
   test("when list has only one blog, that is the favourite", () => {
-    const result = listHelper.favouriteBlog(listWithOneBlog);
-    expect(result).toEqual({
+    expect(listHelper.favouriteBlog(listWithOneBlog)).toEqual({
       title: "Go To Statement Considered Harmful",
       author: "Edsger W. Dijkstra",
       likes: 5,
@@ -97,16 +92,54 @@ describe("favourite blog", () => {
   });
 
   test("when list has no blogs, there is no favourite", () => {
-    const result = listHelper.favouriteBlog(listWithNoBlogs);
-    expect(result).toEqual({});
+    expect(listHelper.favouriteBlog(listWithNoBlogs)).toEqual({});
   });
 
   test("when list has many blogs, favourite should be one with the most likes", () => {
-    const result = listHelper.favouriteBlog(listWithManyBlogs);
-    expect(result).toEqual({
+    expect(listHelper.favouriteBlog(listWithManyBlogs)).toEqual({
       title: "Canonical string reduction",
       author: "Edsger W. Dijkstra",
       likes: 12,
+    });
+  });
+});
+
+describe("most blogs", () => {
+  test("when list has only one blog, that author has the most blogs", () => {
+    expect(listHelper.mostBlogs(listWithOneBlog)).toEqual({
+      author: "Edsger W. Dijkstra",
+      blogs: 1,
+    });
+  });
+
+  test("when list has no blogs, there is no author with the most blogs", () => {
+    expect(listHelper.mostBlogs(listWithNoBlogs)).toEqual({});
+  });
+
+  test("when list has many blogs, author with the most blogs should be returned", () => {
+    expect(listHelper.mostBlogs(listWithManyBlogs)).toEqual({
+      author: "Robert C. Martin",
+      blogs: 3,
+    });
+  });
+});
+
+describe("most likes", () => {
+  test("when list has only one blog, that auther has the most likes", () => {
+    expect(listHelper.mostLikes(listWithOneBlog)).toEqual({
+      author: "Edsger W. Dijkstra",
+      likes: 5,
+    });
+  });
+
+  test("when list has no blogs, there is no author with the most likes", () => {
+    expect(listHelper.mostLikes(listWithNoBlogs)).toEqual({});
+  });
+
+  test("when list has many blogs, most favourited should be returned", () => {
+    expect(listHelper.mostLikes(listWithManyBlogs)).toEqual({
+      author: "Edsger W. Dijkstra",
+      likes: 17,
     });
   });
 });
