@@ -42,8 +42,8 @@ const mostLikes = (blogs) => {
   if (blogs.length === 0) {
     return {};
   }
-  // If liked list has content and already knows about the author, sum likes for that author
   const likedList = blogs.reduce((likedList, post) => {
+    // If liked list has content and already knows about the author, sum likes for that author
     const currentAuthor =
       likedList.length > 0 &&
       likedList.find(({ author }) => author === post.author);
