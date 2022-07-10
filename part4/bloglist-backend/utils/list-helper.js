@@ -22,24 +22,40 @@ const mostBlogs = (blogs) => {
   if (blogs.length === 0) {
     return {};
   }
-  // Array of authors names, with repeats
-  const authors = blogs.map((blog) => blog.author);
-  // Object with each authors name and count of their posts
-  const blogCount = authors.reduce((blogCount, author) => {
-    return (blogCount[author] = (blogCount[author] || 0) + 1), blogCount;
-  }, {});
-  // Identify the author with the most posts by keeping track of the top author
-  const topAuthor = Object.keys(blogCount).reduce((topAuthor, author) =>
-    blogCount[topAuthor] > blogCount[author] ? topAuthor : author
-  );
-  // Return top author object
-  return { author: topAuthor, blogs: blogCount[topAuthor] };
+  const blogCount = blogs.reduce((blogCount, post) => {
+    // If blog count has content and already knows about the author, increase count by 1 for that author
+    const currentAuthor =
+      blogCount.length > 0 &&
+      blogCount.find(({ author }) => author === post.author);
+    if (currentAuthor) {
+      currentAuthor.blogs += 1;
+    }
+    // Otherwise count for the author is one
+    else blogCount.push({ author: post.author, blogs: 1 });
+    return blogCount;
+  }, []);
+  // First entry once sorted by count of blogs
+  return blogCount.sort((a, b) => b.blogs - a.blogs)[0];
 };
 
 const mostLikes = (blogs) => {
   if (blogs.length === 0) {
     return {};
   }
+  // If liked list has content and already knows about the author, sum likes for that author
+  const likedList = blogs.reduce((likedList, post) => {
+    const currentAuthor =
+      likedList.length > 0 &&
+      likedList.find(({ author }) => author === post.author);
+    if (currentAuthor) {
+      currentAuthor.likes += post.likes;
+    }
+    // Otherwise sum for the author is that posts likes
+    else likedList.push({ author: post.author, likes: post.likes });
+    return likedList;
+  }, []);
+  // First entry once sorted by likes
+  return likedList.sort((a, b) => b.likes - a.likes)[0];
 };
 
 module.exports = {
