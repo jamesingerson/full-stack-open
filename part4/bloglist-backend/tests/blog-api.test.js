@@ -25,6 +25,29 @@ describe("after initial blogs are saved", () => {
   });
 });
 
+describe("a new blog is posted", () => {
+  test("valid data is handled correctly", async () => {
+    const newBlog = {
+      title: "Valid Blog Post",
+      author: "James Ingerson",
+      url: "https://www.example.com/valid-post",
+      likes: 5,
+    };
+
+    const response = await api
+      .post("/api/blogs")
+      .send(newBlog)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    const blogsAfterPost = await helper.blogsInDb();
+    expect(blogsAfterPost).toHaveLength(helper.initialBlogs.length + 1);
+
+    const contents = blogsAfterPost.map((b) => b.title);
+    expect(contents).toContain("Valid Blog Post");
+  });
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
