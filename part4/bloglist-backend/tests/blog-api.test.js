@@ -34,7 +34,7 @@ describe("a new blog is posted", () => {
       likes: 5,
     };
 
-    const response = await api
+    await api
       .post("/api/blogs")
       .send(newBlog)
       .expect(201)
@@ -54,7 +54,7 @@ describe("a new blog is posted", () => {
       url: "https://www.example.com/missing-likes-post",
     };
 
-    const response = await api
+    await api
       .post("/api/blogs")
       .send(newBlog)
       .expect(201)
@@ -65,6 +65,22 @@ describe("a new blog is posted", () => {
       (p) => p.title === "Missing Likes Post"
     );
     expect(partialPost.likes).toEqual(0);
+  });
+
+  test("posts missing title and url are not accepted", async () => {
+    const newBlog = {
+      author: "James Ingerson",
+      likes: 164,
+    };
+
+    await api
+      .post("/api/blogs")
+      .send(newBlog)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    const blogsAfterPost = await helper.blogsInDb();
+    expect(blogsAfterPost).toHaveLength(helper.initialBlogs.length);
   });
 });
 
