@@ -18,12 +18,12 @@ GET http://localhost:3003/unknown/end/point/
 
 ###
 
-PUT http://localhost:3003/api/blogs/62c4fd8029aca69dbdf3c5aa HTTP/1.1
+PUT http://localhost:3003/api/blogs/62c8e907bc5ba9550035ebc7 HTTP/1.1
 content-type: application/json
 
 {
     "title": "test",
     "author": "me",
     "url": "www.example.com/blog",
-    "likes": 15
+    "likes": 16
 }

@@ -99,6 +99,28 @@ describe("blog post deletion", () => {
   });
 });
 
+describe("update an existing blog", () => {
+  test("incrementing the likes count", async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const initialBlog = blogsAtStart[0];
+
+    const updatedBlog = {
+      ...initialBlog,
+      likes: initialBlog.likes + 1,
+    };
+
+    await api.put(`/api/blogs/${updatedBlog.id}`).send(updatedBlog).expect(200);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+
+    const blogAtEnd = blogsAtEnd.find((b) => b.id === updatedBlog.id);
+
+    expect(blogAtEnd.likes).toEqual(initialBlog.likes + 1);
+    expect(blogAtEnd.title).toEqual(initialBlog.title);
+  });
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
