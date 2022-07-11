@@ -46,6 +46,26 @@ describe("a new blog is posted", () => {
     const contents = blogsAfterPost.map((b) => b.title);
     expect(contents).toContain("Valid Blog Post");
   });
+
+  test("missing likes means 0 likes", async () => {
+    const newBlog = {
+      title: "Missing Likes Post",
+      author: "James Ingerson",
+      url: "https://www.example.com/missing-likes-post",
+    };
+
+    const response = await api
+      .post("/api/blogs")
+      .send(newBlog)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    const blogsAfterPost = await helper.blogsInDb();
+    const partialPost = blogsAfterPost.find(
+      (p) => p.title === "Missing Likes Post"
+    );
+    expect(partialPost.likes).toEqual(0);
+  });
 });
 
 afterAll(() => {
