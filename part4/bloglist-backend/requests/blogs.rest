@@ -6,10 +6,11 @@ POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
 
 {
-    "title": "test3",
+    "title": "new check with user",
     "author": "me",
     "url": "www.sample.com",
-    "likes": 32
+    "likes": 34,
+    "userId": "62cd1d182d2a8507a98bcaf8"
 }
 
 ###
