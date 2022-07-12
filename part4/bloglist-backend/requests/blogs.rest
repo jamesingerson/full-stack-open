@@ -4,13 +4,13 @@ GET http://localhost:3003/api/blogs/
 
 POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphbWVzaSIsImlkIjoiNjJjZDIyY2QxMjU5YWQwNDcyOTNiNzg4IiwiaWF0IjoxNjU3NjEzODE4fQ.BLkvcfzfa6V4__nQxvA9mPJYeNIHxl_C3GiONJPjFvg
 
 {
-    "title": "new check with user",
+    "title": "token based post v2",
     "author": "me",
     "url": "www.sample.com",
-    "likes": 34,
-    "userId": "62cd22cd1259ad047293b788"
+    "likes": 38
 }
 
 ###
