@@ -12,8 +12,8 @@ describe("initialize and test user set up", () => {
   beforeEach(async () => {
     await User.deleteMany({});
 
-    const passwordHash = await bcrypt.hash("securepassword", 10);
-    const user = new User({ username: "jamesi", passwordHash });
+    const passwordHash = await bcrypt.hash("testpassword", 10);
+    const user = new User({ username: "testuser", passwordHash });
 
     await user.save();
   });
@@ -44,8 +44,8 @@ describe("initialize and test user set up", () => {
     const usersAtStart = await helper.usersInDb();
 
     const newUser = {
-      username: "jamesi",
-      name: "An Imposter",
+      username: "testuser",
+      name: "A Duplicate",
       password: "covertcode",
     };
 
