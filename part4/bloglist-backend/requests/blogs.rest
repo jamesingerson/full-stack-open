@@ -28,3 +28,9 @@ content-type: application/json
     "url": "www.example.com/blog",
     "likes": 16
 }
+
+###
+
+DELETE http://localhost:3003/api/blogs/62cd3ce76606c0dfc18e6ea9 HTTP/1.1
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphbWVzaSIsImlkIjoiNjJjZDIyY2QxMjU5YWQwNDcyOTNiNzg4IiwiaWF0IjoxNjU3NjEzODE4fQ.BLkvcfzfa6V4__nQxvA9mPJYeNIHxl_C3GiONJPjFvg
