@@ -10,7 +10,7 @@ content-type: application/json
     "author": "me",
     "url": "www.sample.com",
     "likes": 34,
-    "userId": "62cd1d182d2a8507a98bcaf8"
+    "userId": "62cd22cd1259ad047293b788"
 }
 
 ###

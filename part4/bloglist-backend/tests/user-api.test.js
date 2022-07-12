@@ -8,23 +8,23 @@ const api = supertest(app);
 
 const User = require("../models/user");
 
-describe("when there is initially one user in db", () => {
+describe("with one user in the database", () => {
   beforeEach(async () => {
     await User.deleteMany({});
 
-    const passwordHash = await bcrypt.hash("sekret", 10);
-    const user = new User({ username: "root", passwordHash });
+    const passwordHash = await bcrypt.hash("securepassword", 10);
+    const user = new User({ username: "jamesi", passwordHash });
 
     await user.save();
   });
 
-  test("creation succeeds with a fresh username", async () => {
+  test("valid new user is created correctly", async () => {
     const usersAtStart = await helper.usersInDb();
 
     const newUser = {
-      username: "mluukkai",
-      name: "Matti Luukkainen",
-      password: "salainen",
+      username: "notjames",
+      name: "Someoneelse",
+      password: "verygoodpassword",
     };
 
     await api
@@ -40,13 +40,13 @@ describe("when there is initially one user in db", () => {
     expect(usernames).toContain(newUser.username);
   });
 
-  test("creation fails with proper statuscode and message if username already taken", async () => {
+  test("don't create a new user if username is taken", async () => {
     const usersAtStart = await helper.usersInDb();
 
     const newUser = {
-      username: "root",
-      name: "Superuser",
-      password: "salainen",
+      username: "jamesi",
+      name: "An Imposter",
+      password: "covertcode",
     };
 
     const result = await api
@@ -56,6 +56,112 @@ describe("when there is initially one user in db", () => {
       .expect("Content-Type", /application\/json/);
 
     expect(result.body.error).toContain("username must be unique");
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toEqual(usersAtStart);
+  });
+
+  test("stop creating a new user if no username is provided", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      name: "Incomplete",
+      password: "passwo",
+    };
+
+    const result = await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    expect(result.body.error).toContain("a username must be provided");
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toEqual(usersAtStart);
+  });
+
+  test("stop creating a new user if no password is provided", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: "nopass",
+      name: "Double Agent",
+    };
+
+    const result = await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    expect(result.body.error).toContain("a password must be provided");
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toEqual(usersAtStart);
+  });
+
+  test("stop creating a new user if no password is provided", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: "nopass",
+      name: "Double Agent",
+    };
+
+    const result = await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    expect(result.body.error).toContain("a password must be provided");
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toEqual(usersAtStart);
+  });
+
+  test("stop creating a new user if password is too short", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: "key",
+      name: "Mr Key",
+      password: "mk",
+    };
+
+    const result = await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    expect(result.body.error).toContain(
+      "password must be at least three characters"
+    );
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toEqual(usersAtStart);
+  });
+
+  test("stop creating a new user if username is too short", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: "jd",
+      name: "John Doe",
+      password: "littleknown",
+    };
+
+    const result = await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    expect(result.body.error).toContain(
+      "username must be at least three characters"
+    );
 
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toEqual(usersAtStart);

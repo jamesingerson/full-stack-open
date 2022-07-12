@@ -10,6 +10,20 @@ usersRouter.get("/", async (request, response) => {
 usersRouter.post("/", async (request, response) => {
   const { username, name, password } = request.body;
 
+  if (username === undefined) {
+    return response.status(400).json({ error: "a username must be provided" });
+  } else if (password === undefined) {
+    return response.status(400).json({ error: "a password must be provided" });
+  } else if (username.length < 3) {
+    return response
+      .status(400)
+      .json({ error: "username must be at least three characters" });
+  } else if (password.length < 3) {
+    return response
+      .status(400)
+      .json({ error: "password must be at least three characters" });
+  }
+
   const existingUser = await User.findOne({ username });
   if (existingUser) {
     return response.status(400).json({ error: "username must be unique" });
