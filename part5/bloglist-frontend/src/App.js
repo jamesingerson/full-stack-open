@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
+import Notification from "./components/Notification";
 import Blog from "./components/Blog";
 import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import LoginForm from "./components/LoginForm";
+
+import "./index.css";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -13,7 +16,7 @@ const App = () => {
   const [newAuthor, setNewAuthor] = useState("");
   const [newUrl, setNewUrl] = useState("");
   const [user, setUser] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -28,6 +31,11 @@ const App = () => {
     }
   }, []);
 
+  function showNotification(message, status) {
+    setNotification({ message, status });
+    setTimeout(() => setNotification(null), 5000);
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -40,11 +48,9 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
+      showNotification(`User ${user.name} logged in`, "success");
     } catch (exception) {
-      setErrorMessage("Wrong credentials");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+      showNotification(`Invalid credentials`, "error");
     }
   };
 
@@ -72,6 +78,8 @@ const App = () => {
       setNewAuthor("");
       setNewUrl("");
     });
+
+    showNotification(`New blog ${blogObject.title} added`, "success");
   };
 
   const handleTitleChange = (event) => {
@@ -89,6 +97,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification notification={notification} />
       {user === null ? (
         <LoginForm
           handleLogin={handleLogin}
