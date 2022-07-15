@@ -72,7 +72,7 @@ const App = () => {
     showNotification(`New blog ${blogObject.title} added`, "success");
   };
 
-  const increaseLikes = ({ blog, id }) => {
+  const increaseLikes = ({ blog }) => {
     const putBlog = {
       user: blog.user,
       likes: blog.likes + 1,
@@ -83,6 +83,14 @@ const App = () => {
     blogService.update(blog.id, putBlog).then((returnedBlog) => {
       setBlogs(blogs.map((b) => (b.id !== returnedBlog.id ? b : returnedBlog)));
     });
+  };
+
+  const removeBlog = ({ blog }) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      blogService.remove(blog.id).then(() => {
+        setBlogs(blogs.filter((b) => b.id !== blog.id));
+      });
+    }
   };
 
   return (
@@ -108,7 +116,13 @@ const App = () => {
           {blogs
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
-              <Blog key={blog.id} blog={blog} increaseLikes={increaseLikes} />
+              <Blog
+                key={blog.id}
+                blog={blog}
+                increaseLikes={increaseLikes}
+                removeBlog={removeBlog}
+                user={user}
+              />
             ))}
         </div>
       )}

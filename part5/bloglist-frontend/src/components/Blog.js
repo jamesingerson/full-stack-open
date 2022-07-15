@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Blog = ({ blog, increaseLikes }) => {
+const Blog = ({ blog, increaseLikes, removeBlog, user }) => {
   const [expanded, setExpanded] = useState(false);
 
   const hideWhenExpanded = { display: expanded ? "none" : "" };
@@ -24,14 +24,19 @@ const Blog = ({ blog, increaseLikes }) => {
         <button onClick={() => toggleExpanded()}>View Details</button>
       </div>
       <div style={showWhenExpanded}>
-        <p>{blog.title}</p>
+        <p>
+          {blog.title}{" "}
+          <button onClick={() => toggleExpanded()}>Collapse</button>
+        </p>
         <p>{blog.url}</p>
         <p>
           {blog.likes}{" "}
           <button onClick={() => increaseLikes({ blog })}>Like</button>
         </p>
         <p>{blog.author}</p>
-        <button onClick={() => toggleExpanded()}>Collapse</button>
+        {user.username === blog.user.username && (
+          <button onClick={() => removeBlog({ blog })}>Remove</button>
+        )}
       </div>
     </>
   );
