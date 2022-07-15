@@ -4,32 +4,56 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Blog from "./Blog";
 
-test("renders content", () => {
-  const blog = {
-    title: "Test Post",
-    author: "James Ingerson",
-    url: "https://example.com",
-    likes: 5,
-    user: {
+describe("<Blog />", () => {
+  let post;
+
+  beforeEach(() => {
+    const blog = {
+      title: "Test Post",
+      author: "James Ingerson",
+      url: "https://example.com",
+      likes: 5,
+      user: {
+        username: "jamesi",
+      },
+    };
+
+    const user = {
       username: "jamesi",
-    },
-  };
+    };
 
-  const user = {
-    username: "jamesi",
-  };
+    post = render(<Blog blog={blog} user={user} />).container;
+  });
 
-  const post = render(<Blog blog={blog} user={user} />).container;
+  test("renders content", () => {
+    // Blog name and author are present
+    const collapsedPost = screen.getByText("Test Post James Ingerson");
+    expect(collapsedPost).toBeDefined();
 
-  // Blog name and author are present
-  const collapsedPost = screen.getByText("Test Post James Ingerson");
-  expect(collapsedPost).toBeDefined();
+    // Collapsed blog with title and author is visible to start with
+    const collapsed = post.querySelector(".collapsed-blog");
+    expect(collapsed).not.toHaveStyle("display: none");
 
-  // Collapsed blog with title and author is visible to start with
-  const collapsed = post.querySelector(".collapsed-blog");
-  expect(collapsed).not.toHaveStyle("display: none");
+    // Expanded blog with url and likes are not visible to start with
+    const expanded = post.querySelector(".expanded-blog");
+    expect(expanded).toHaveStyle("display: none");
+  });
 
-  // Expanded blog with url and likes are not visible to start with
-  const expanded = post.querySelector(".expanded-blog");
-  expect(expanded).toHaveStyle("display: none");
+  test("clicking view details makes blog expand", async () => {
+    const uEvent = userEvent.setup();
+    const button = screen.getByText("View Details");
+    await uEvent.click(button);
+
+    // Collapsed blog with title and author is hidden
+    const collapsed = post.querySelector(".collapsed-blog");
+    expect(collapsed).toHaveStyle("display: none");
+
+    // Expanded blog with url and likes is now visible
+    const expanded = post.querySelector(".expanded-blog");
+    expect(expanded).not.toHaveStyle("display: none");
+
+    // Blog name and author are present
+    const expandedPost = screen.getByText("https://example.com");
+    expect(expandedPost).toBeDefined();
+  });
 });
