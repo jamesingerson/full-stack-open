@@ -6,7 +6,7 @@ import Blog from "./Blog";
 
 describe("<Blog />", () => {
   let post;
-
+  const mockLikes = jest.fn();
   beforeEach(() => {
     const blog = {
       title: "Test Post",
@@ -22,7 +22,9 @@ describe("<Blog />", () => {
       username: "jamesi",
     };
 
-    post = render(<Blog blog={blog} user={user} />).container;
+    post = render(
+      <Blog blog={blog} user={user} increaseLikes={mockLikes} />
+    ).container;
   });
 
   test("renders content", () => {
@@ -55,5 +57,13 @@ describe("<Blog />", () => {
     // Blog name and author are present
     const expandedPost = screen.getByText("https://example.com");
     expect(expandedPost).toBeDefined();
+  });
+
+  test("clicking like twice calls increaseLikes twice", async () => {
+    const uEvent = userEvent.setup();
+    const button = screen.getByText("Like");
+    await uEvent.click(button);
+    await uEvent.click(button);
+    expect(mockLikes.mock.calls).toHaveLength(2);
   });
 });
