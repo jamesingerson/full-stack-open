@@ -21,7 +21,6 @@ test("<BlogForm /> gets correct details when submitted", async () => {
   await uEvent.click(sendButton);
 
   expect(createBlog.mock.calls).toHaveLength(1);
-  console.log(createBlog.mock.calls);
   expect(createBlog.mock.calls[0][0].title).toBe("Test Blog Post");
   expect(createBlog.mock.calls[0][0].author).toBe("Jest Test Suite");
   expect(createBlog.mock.calls[0][0].url).toBe("https://jestjs.io/");
