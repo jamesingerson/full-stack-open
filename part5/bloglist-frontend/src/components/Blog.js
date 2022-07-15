@@ -19,11 +19,11 @@ const Blog = ({ blog, increaseLikes, removeBlog, user }) => {
 
   return (
     <>
-      <div style={hideWhenExpanded}>
-        {blog.title}{" "}
+      <div style={hideWhenExpanded} className="collapsed-blog">
+        {blog.title} {blog.author}
         <button onClick={() => toggleExpanded()}>View Details</button>
       </div>
-      <div style={showWhenExpanded}>
+      <div style={showWhenExpanded} className="expanded-blog">
         <p>
           {blog.title}{" "}
           <button onClick={() => toggleExpanded()}>Collapse</button>
