@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, increaseLikes }) => {
   const [expanded, setExpanded] = useState(false);
 
   const hideWhenExpanded = { display: expanded ? "none" : "" };
@@ -15,10 +15,6 @@ const Blog = ({ blog }) => {
 
   const toggleExpanded = () => {
     setExpanded(!expanded);
-  };
-
-  const increaseLikes = (blog) => {
-    console.log(blog);
   };
 
   return (

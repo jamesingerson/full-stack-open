@@ -72,6 +72,19 @@ const App = () => {
     showNotification(`New blog ${blogObject.title} added`, "success");
   };
 
+  const increaseLikes = ({ blog, id }) => {
+    const putBlog = {
+      user: blog.user,
+      likes: blog.likes + 1,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url,
+    };
+    blogService.update(blog.id, putBlog).then((returnedBlog) => {
+      setBlogs(blogs.map((b) => (b.id !== returnedBlog.id ? b : returnedBlog)));
+    });
+  };
+
   return (
     <div>
       <h2>blogs</h2>
@@ -93,7 +106,7 @@ const App = () => {
             <BlogForm createBlog={addBlog} />
           </Togglable>
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} increaseLikes={increaseLikes} />
           ))}
         </div>
       )}
