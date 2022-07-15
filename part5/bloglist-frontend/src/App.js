@@ -49,7 +49,7 @@ const App = () => {
       setPassword("");
       showNotification(`User ${user.name} logged in`, "success");
     } catch (exception) {
-      showNotification(`Invalid credentials`, "error");
+      showNotification("Invalid credentials", "error");
     }
   };
 
