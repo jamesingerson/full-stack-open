@@ -81,6 +81,7 @@ const App = () => {
       url: blog.url,
     };
     blogService.update(blog.id, putBlog).then((returnedBlog) => {
+      console.log(returnedBlog);
       setBlogs(blogs.map((b) => (b.id !== returnedBlog.id ? b : returnedBlog)));
     });
   };
