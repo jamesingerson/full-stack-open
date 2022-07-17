@@ -91,5 +91,39 @@ describe("Blog app", function () {
         cy.get("html").should("not.contain", "Remove");
       });
     });
+
+    describe("and many blogs exist", function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: "Test Blog",
+          author: "Cypress",
+          url: "https://www.cypress.io/",
+        });
+        cy.createBlog({
+          title: "Another One",
+          author: "Cypress",
+          url: "https://www.cypress.io/",
+          likes: 1,
+        });
+        cy.createBlog({
+          title: "Additional Post",
+          author: "Cypress",
+          url: "https://www.cypress.io/",
+        });
+      });
+
+      it.only("they are ordered by likes", function () {
+        cy.contains("Additional Post").contains("View Details").click();
+        // eslint-disable-next-line quotes
+        cy.get('[data-cy="Additional Post"]')
+          .contains("Like")
+          .click()
+          .wait(100)
+          .click()
+          .wait(100);
+        cy.get(".collapsed-blog").eq(0).should("contain", "Additional Post");
+        cy.get(".collapsed-blog").eq(1).should("contain", "Another One");
+      });
+    });
   });
 });

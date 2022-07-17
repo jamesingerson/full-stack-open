@@ -23,7 +23,11 @@ const Blog = ({ blog, increaseLikes, removeBlog, user }) => {
         {blog.title} {blog.author}
         <button onClick={() => toggleExpanded()}>View Details</button>
       </div>
-      <div style={showWhenExpanded} className="expanded-blog">
+      <div
+        style={showWhenExpanded}
+        className="expanded-blog"
+        data-cy={blog.title}
+      >
         <p>
           {blog.title}{" "}
           <button onClick={() => toggleExpanded()}>Collapse</button>
