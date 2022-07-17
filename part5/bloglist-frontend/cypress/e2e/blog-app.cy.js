@@ -54,5 +54,21 @@ describe("Blog app", function () {
       // Check blog is added to list
       cy.contains("Test Blog Cypress");
     });
+
+    describe("and a blog exists", function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: "Test Blog",
+          author: "Cypress",
+          url: "https://www.cypress.io/",
+        });
+      });
+
+      it("it can be liked", function () {
+        cy.contains("Test Blog Cypress").contains("View Details").click();
+        cy.contains("Like").click();
+        cy.contains("1").contains("Like");
+      });
+    });
   });
 });
