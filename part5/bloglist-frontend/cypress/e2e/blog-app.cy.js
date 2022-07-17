@@ -38,4 +38,21 @@ describe("Blog app", function () {
       cy.get("html").should("not.contain", "James Ingerson logged in");
     });
   });
+
+  describe("When logged in", function () {
+    beforeEach(function () {
+      cy.login({ username: "jamesi", password: "securepassword" });
+    });
+
+    it("A blog can be created", function () {
+      cy.contains("new blog").click();
+      cy.get("#title").type("Test Blog");
+      cy.get("#author").type("Cypress");
+      cy.get("#url").type("https://www.cypress.io/");
+      cy.contains("Submit").click();
+
+      // Check blog is added to list
+      cy.contains("Test Blog Cypress");
+    });
+  });
 });
