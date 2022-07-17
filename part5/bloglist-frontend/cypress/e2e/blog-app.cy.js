@@ -7,6 +7,12 @@ describe("Blog app", function () {
       password: "securepassword",
     };
     cy.request("POST", "http://localhost:3003/api/users/", user);
+    const alternateUser = {
+      name: "Alternate User",
+      username: "alternate",
+      password: "otheruser",
+    };
+    cy.request("POST", "http://localhost:3003/api/users/", alternateUser);
     cy.visit("http://localhost:3000");
   });
 
@@ -68,6 +74,21 @@ describe("Blog app", function () {
         cy.contains("Test Blog Cypress").contains("View Details").click();
         cy.contains("Like").click();
         cy.contains("1").contains("Like");
+      });
+
+      it("it can be deleted by the submitter", function () {
+        cy.contains("Test Blog Cypress").contains("View Details").click();
+        cy.contains("Remove").click();
+        cy.get("html").should("not.contain", "Test Blog");
+      });
+
+      it("it cannot be deleted by anyone other than the submitter", function () {
+        cy.contains("Test Blog Cypress");
+        cy.contains("Logout").click();
+        cy.login({ username: "alternate", password: "otheruser" });
+        cy.contains("Alternate User logged in");
+        cy.contains("Test Blog Cypress").contains("View Details").click();
+        cy.get("html").should("not.contain", "Remove");
       });
     });
   });
