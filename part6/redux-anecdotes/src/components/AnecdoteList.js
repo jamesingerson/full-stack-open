@@ -13,23 +13,22 @@ const Anecdote = ({ anecdote, handleClick }) => {
   );
 };
 
-const Notes = () => {
+const Anecdotes = () => {
   const dispatch = useDispatch();
-  const anecdotes = useSelector((state) => state);
+  const anecdotes = useSelector((state) => state.anecdotes);
+  const sortedAnecdotes = [...anecdotes].sort((a, b) => b.votes - a.votes);
 
   return (
     <>
-      {anecdotes
-        .sort((a, b) => b.votes - a.votes)
-        .map((anecdote) => (
-          <Anecdote
-            key={anecdote.id}
-            anecdote={anecdote}
-            handleClick={() => dispatch(voteFor(anecdote.id))}
-          />
-        ))}
+      {sortedAnecdotes.map((anecdote) => (
+        <Anecdote
+          key={anecdote.id}
+          anecdote={anecdote}
+          handleClick={() => dispatch(voteFor(anecdote.id))}
+        />
+      ))}
     </>
   );
 };
 
-export default Notes;
+export default Anecdotes;
