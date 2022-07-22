@@ -27,6 +27,10 @@ const Menu = () => {
   );
 };
 
+const Notification = ({ notification }) => {
+  return <p>{notification}</p>;
+};
+
 const Anecdote = ({ anecdote }) => {
   return (
     <div>
@@ -162,9 +166,14 @@ const App = () => {
     ? anecdotes.find((anecdote) => anecdote.id === Number(match.params.id))
     : null;
 
+  const navigate = useNavigate();
+
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000);
     setAnecdotes(anecdotes.concat(anecdote));
+    navigate("/");
+    setNotification(`A new anecdote ${anecdote.content} has been created.`);
+    setTimeout(() => setNotification(null), 5000);
   };
 
   const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
@@ -184,6 +193,8 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+
+      {notification && <Notification notification={notification} />}
 
       <Routes>
         <Route
