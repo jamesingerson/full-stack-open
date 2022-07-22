@@ -31,3 +31,5 @@ yarn-error.log*
 /notes-redux
 /notes-router
 /counter-hook
+/practising-webpack
+/examine-eject
