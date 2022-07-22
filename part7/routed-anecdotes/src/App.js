@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Routes,
-  Route,
-  Link,
-  Navigate,
-  useNavigate,
-  useMatch,
-} from "react-router-dom";
+import { Routes, Route, Link, useNavigate, useMatch } from "react-router-dom";
 
 const Menu = () => {
   const padding = {
