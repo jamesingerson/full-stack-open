@@ -30,30 +30,51 @@ const SingleBlog = () => {
     <>
       {blog && (
         <>
-          <h3>{blog.title}</h3>
-          <a href={blog.url}>{blog.url}</a>
-          <p>
-            {blog.likes} likes{" "}
-            <button onClick={() => dispatch(likeBlog(blog))}>Like</button>
-          </p>
-          <p>Contributed by {blog.author}</p>
+          <div className="card m-6">
+            <div className="card-content">
+              <div className="content">
+                <h3 className="title is-3">{blog.title}</h3>
+                <a href={blog.url}>{blog.url}</a>
+                <p>
+                  {blog.likes} likes{" "}
+                  <button
+                    className="button is-info is-small"
+                    onClick={() => dispatch(likeBlog(blog))}
+                  >
+                    Like
+                  </button>
+                </p>
+                <p>Contributed by {blog.author}</p>
+              </div>
+            </div>
+          </div>
           {blog.user && user.username === blog.user.username && (
             <p>
-              <button onClick={() => handleRemoval(blog)}>Remove</button>
+              <button
+                className="button is-danger is-small m-4"
+                onClick={() => handleRemoval(blog)}
+              >
+                Remove
+              </button>
             </p>
           )}
           <form onSubmit={handleCommenting}>
-            <h3>Add Comment:</h3>
+            <h3 className="title is-3">Add Comment:</h3>
             <p>
-              <input placeholder="Comment" name="comment" id="comment" />
+              <input
+                className="input"
+                placeholder="Comment"
+                name="comment"
+                id="comment"
+              />
             </p>
-            <button type="submit" id="submit">
+            <button className="button is-info m-4" type="submit" id="submit">
               Submit
             </button>
           </form>
           {blog.comments.length > 0 && (
             <>
-              <h3>Comments:</h3>
+              <h3 className="title is-3">Comments:</h3>
               <ul>
                 {blog.comments.map((comment) => (
                   <li key={comment}>{comment}</li>

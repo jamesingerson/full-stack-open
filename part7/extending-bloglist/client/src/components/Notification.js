@@ -7,7 +7,13 @@ const Notification = () => {
     padding: 10,
     borderWidth: 1,
   };
-  return notification && <div style={style}>{notification}</div>;
+  return (
+    notification && (
+      <div className="notification is-info" style={style}>
+        {notification}
+      </div>
+    )
+  );
 };
 
 export default Notification;

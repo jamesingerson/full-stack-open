@@ -11,8 +11,8 @@ const SingleUser = () => {
     <>
       {user && (
         <>
-          <h3>{user.name}</h3>
-          <h4>Contributed Blogs:</h4>
+          <h3 className="title is-3">{user.name}</h3>
+          <h4 className="title is-4">Contributed Blogs:</h4>
           <ul>
             {user.blogs.length === 0 ? (
               <p>No posts yet.</p>

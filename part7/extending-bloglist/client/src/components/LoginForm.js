@@ -31,12 +31,19 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleLogin}>
       <div>
-        username <input type="text" name="username" id="username" />
+        username{" "}
+        <input className="input" type="text" name="username" id="username" />
       </div>
       <div>
-        password <input type="password" name="password" id="password" />
+        password{" "}
+        <input
+          className="input"
+          type="password"
+          name="password"
+          id="password"
+        />
       </div>
-      <button type="submit" id="login-button">
+      <button className="button is-info  m-4" type="submit" id="login-button">
         login
       </button>
     </form>

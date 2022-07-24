@@ -8,15 +8,17 @@ import blogService from "./services/blogs";
 
 import { activeUser } from "./reducers/userReducer";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer";
 import { Routes, Route } from "react-router-dom";
+import LoginForm from "./components/LoginForm";
 
 import "./index.css";
 import { initializeUserList } from "./reducers/userListReducer";
 
 const App = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(initializeUserList());
@@ -33,18 +35,20 @@ const App = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container p-6">
       <NavBar />
 
-      <h2>Blog List</h2>
       <Notification />
-
-      <Routes>
-        <Route path="/blogs/:id" element={<SingleBlog />} />
-        <Route path="/users/:id" element={<SingleUser />} />
-        <Route path="/users" element={<UserList />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
+      {user === null ? (
+        <LoginForm />
+      ) : (
+        <Routes>
+          <Route path="/blogs/:id" element={<SingleBlog />} />
+          <Route path="/users/:id" element={<SingleUser />} />
+          <Route path="/users" element={<UserList />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      )}
     </div>
   );
 };

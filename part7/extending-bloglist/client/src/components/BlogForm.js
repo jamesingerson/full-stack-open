@@ -23,17 +23,24 @@ const BlogForm = () => {
 
   return (
     <form onSubmit={addBlog}>
-      <h2>new post</h2>
+      <h2 className="title is-2">new post</h2>
       <p>
-        title: <input placeholder="Title" name="title" id="title" />
+        title:{" "}
+        <input className="input" placeholder="Title" name="title" id="title" />
       </p>
       <p>
-        author: <input placeholder="Author" name="author" id="author" />
+        author:{" "}
+        <input
+          className="input"
+          placeholder="Author"
+          name="author"
+          id="author"
+        />
       </p>
       <p>
-        url: <input placeholder="Url" name="url" id="url" />
+        url: <input className="input" placeholder="Url" name="url" id="url" />
       </p>
-      <button type="submit" id="submit">
+      <button className="button is-info m-4" type="submit" id="submit">
         Submit
       </button>
     </form>
