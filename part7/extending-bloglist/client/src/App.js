@@ -9,6 +9,7 @@ import Togglable from "./components/Togglable";
 import { setNotification } from "./reducers/notificationReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer";
+import { activeUser } from "./reducers/userReducer";
 
 import "./index.css";
 
@@ -16,10 +17,10 @@ const App = () => {
   const dispatch = useDispatch();
 
   const blogs = useSelector((state) => state.blogs);
+  const user = useSelector((state) => state.user);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
   const blogFormRef = useRef();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem("loggedInBlogAppUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
+      dispatch(activeUser(user));
       blogService.setToken(user.token);
     }
   }, []);
@@ -44,7 +45,7 @@ const App = () => {
       });
       window.localStorage.setItem("loggedInBlogAppUser", JSON.stringify(user));
       blogService.setToken(user.token);
-      setUser(user);
+      dispatch(activeUser(user));
       setUsername("");
       setPassword("");
       dispatch(setNotification(`User ${user.name} logged in`));
@@ -57,7 +58,7 @@ const App = () => {
     event.preventDefault();
     window.localStorage.removeItem("loggedInBlogAppUser");
     blogService.setToken("");
-    setUser(null);
+    dispatch(activeUser(null));
     setUsername("");
     setPassword("");
   };
