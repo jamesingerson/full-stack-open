@@ -62,28 +62,6 @@ const App = () => {
     setPassword("");
   };
 
-  const increaseLikes = ({ blog }) => {
-    const putBlog = {
-      user: blog.user,
-      likes: blog.likes + 1,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url,
-    };
-    blogService.update(blog.id, putBlog).then((returnedBlog) => {
-      console.log("rb", returnedBlog);
-      //setBlogs(blogs.map((b) => (b.id !== returnedBlog.id ? b : returnedBlog)));
-    });
-  };
-
-  const removeBlog = ({ blog }) => {
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      blogService.remove(blog.id).then(() => {
-        //setBlogs(blogs.filter((b) => b.id !== blog.id));
-      });
-    }
-  };
-
   return (
     <div>
       <h2>blogs</h2>
@@ -107,13 +85,7 @@ const App = () => {
           {[...blogs]
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                increaseLikes={increaseLikes}
-                removeBlog={removeBlog}
-                user={user}
-              />
+              <Blog key={blog.id} blog={blog} user={user} />
             ))}
         </div>
       )}

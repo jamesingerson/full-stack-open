@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { likeBlog, removeBlog } from "../reducers/blogReducer";
 
-const Blog = ({ blog, increaseLikes, removeBlog, user }) => {
+const Blog = ({ blog, user }) => {
+  const dispatch = useDispatch();
   const [expanded, setExpanded] = useState(false);
 
   const hideWhenExpanded = { display: expanded ? "none" : "" };
@@ -15,6 +18,12 @@ const Blog = ({ blog, increaseLikes, removeBlog, user }) => {
 
   const toggleExpanded = () => {
     setExpanded(!expanded);
+  };
+
+  const handleRemoval = (blog) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      dispatch(removeBlog(blog));
+    }
   };
 
   return (
@@ -35,11 +44,11 @@ const Blog = ({ blog, increaseLikes, removeBlog, user }) => {
         <p>{blog.url}</p>
         <p>
           {blog.likes}{" "}
-          <button onClick={() => increaseLikes({ blog })}>Like</button>
+          <button onClick={() => dispatch(likeBlog(blog))}>Like</button>
         </p>
         <p>{blog.author}</p>
         {user.username === blog.user.username && (
-          <button onClick={() => removeBlog({ blog })}>Remove</button>
+          <button onClick={() => handleRemoval(blog)}>Remove</button>
         )}
       </div>
     </>
