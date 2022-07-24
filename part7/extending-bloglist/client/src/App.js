@@ -3,21 +3,20 @@ import UserList from "./components/UserList";
 import Home from "./components/Home";
 import SingleUser from "./components/SingleUser";
 import SingleBlog from "./components/SingleBlog";
+import NavBar from "./components/NavBar";
 import blogService from "./services/blogs";
 
 import { activeUser } from "./reducers/userReducer";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import "./index.css";
 import { initializeUserList } from "./reducers/userListReducer";
 
 const App = () => {
   const dispatch = useDispatch();
-
-  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(initializeUserList());
@@ -33,33 +32,9 @@ const App = () => {
     }
   }, []);
 
-  const handleLogout = async (event) => {
-    event.preventDefault();
-    window.localStorage.removeItem("loggedInBlogAppUser");
-    blogService.setToken("");
-    dispatch(activeUser(null));
-  };
-
-  const padding = {
-    padding: 5,
-  };
-
   return (
     <div>
-      <div>
-        <Link style={padding} to="/">
-          Blogs
-        </Link>
-        <Link style={padding} to="/users">
-          Users
-        </Link>
-        {user && (
-          <span>
-            {" "}
-            {user.name} logged in <button onClick={handleLogout}>Logout</button>
-          </span>
-        )}
-      </div>
+      <NavBar />
 
       <h2>Blog List</h2>
       <Notification />
