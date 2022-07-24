@@ -7,21 +7,24 @@ import loginService from "./services/login";
 import LoginForm from "./components/LoginForm";
 import Togglable from "./components/Togglable";
 import { setNotification } from "./reducers/notificationReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { initializeBlogs } from "./reducers/blogReducer";
 
 import "./index.css";
 
 const App = () => {
   const dispatch = useDispatch();
-  const [blogs, setBlogs] = useState([]);
+
+  const blogs = useSelector((state) => state.blogs);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const blogFormRef = useRef();
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+    dispatch(initializeBlogs());
+  }, [dispatch]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedInBlogAppUser");
@@ -59,16 +62,6 @@ const App = () => {
     setPassword("");
   };
 
-  const addBlog = (blogObject) => {
-    blogFormRef.current.toggleVisibility();
-
-    blogService.create(blogObject).then((returnedBlog) => {
-      setBlogs(blogs.concat(returnedBlog));
-    });
-
-    dispatch(setNotification(`New blog ${blogObject.title} added`));
-  };
-
   const increaseLikes = ({ blog }) => {
     const putBlog = {
       user: blog.user,
@@ -78,15 +71,15 @@ const App = () => {
       url: blog.url,
     };
     blogService.update(blog.id, putBlog).then((returnedBlog) => {
-      console.log(returnedBlog);
-      setBlogs(blogs.map((b) => (b.id !== returnedBlog.id ? b : returnedBlog)));
+      console.log("rb", returnedBlog);
+      //setBlogs(blogs.map((b) => (b.id !== returnedBlog.id ? b : returnedBlog)));
     });
   };
 
   const removeBlog = ({ blog }) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       blogService.remove(blog.id).then(() => {
-        setBlogs(blogs.filter((b) => b.id !== blog.id));
+        //setBlogs(blogs.filter((b) => b.id !== blog.id));
       });
     }
   };
@@ -109,9 +102,9 @@ const App = () => {
             {user.name} logged in <button onClick={handleLogout}>Logout</button>
           </p>
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
-            <BlogForm createBlog={addBlog} />
+            <BlogForm />
           </Togglable>
-          {blogs
+          {[...blogs]
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
               <Blog
