@@ -6,15 +6,17 @@ import blogService from "./services/blogs";
 import loginService from "./services/login";
 import LoginForm from "./components/LoginForm";
 import Togglable from "./components/Togglable";
+import { setNotification } from "./reducers/notificationReducer";
+import { useDispatch } from "react-redux";
 
 import "./index.css";
 
 const App = () => {
+  const dispatch = useDispatch();
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState(null);
   const blogFormRef = useRef();
 
   useEffect(() => {
@@ -30,11 +32,6 @@ const App = () => {
     }
   }, []);
 
-  function showNotification(message, status) {
-    setNotification({ message, status });
-    setTimeout(() => setNotification(null), 5000);
-  }
-
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -47,9 +44,9 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
-      showNotification(`User ${user.name} logged in`, "success");
+      dispatch(setNotification(`User ${user.name} logged in`));
     } catch (exception) {
-      showNotification("Invalid credentials", "error");
+      dispatch(setNotification("Invalid credentials"));
     }
   };
 
@@ -69,7 +66,7 @@ const App = () => {
       setBlogs(blogs.concat(returnedBlog));
     });
 
-    showNotification(`New blog ${blogObject.title} added`, "success");
+    dispatch(setNotification(`New blog ${blogObject.title} added`));
   };
 
   const increaseLikes = ({ blog }) => {
@@ -97,7 +94,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification notification={notification} />
+      <Notification />
       {user === null ? (
         <LoginForm
           handleLogin={handleLogin}
