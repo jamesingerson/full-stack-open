@@ -1,6 +1,7 @@
 import Notification from "./components/Notification";
 import UserList from "./components/UserList";
 import Home from "./components/Home";
+import SingleUser from "./components/SingleUser";
 import blogService from "./services/blogs";
 
 import { activeUser } from "./reducers/userReducer";
@@ -10,6 +11,7 @@ import { initializeBlogs } from "./reducers/blogReducer";
 import { Routes, Route, Link } from "react-router-dom";
 
 import "./index.css";
+import { initializeUserList } from "./reducers/userListReducer";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,7 @@ const App = () => {
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
+    dispatch(initializeUserList());
     dispatch(initializeBlogs());
   }, [dispatch]);
 
@@ -61,6 +64,7 @@ const App = () => {
       <Notification />
 
       <Routes>
+        <Route path="/users/:id" element={<SingleUser />} />
         <Route path="/users" element={<UserList />} />
         <Route path="/" element={<Home />} />
       </Routes>
