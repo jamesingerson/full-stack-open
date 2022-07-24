@@ -3,8 +3,8 @@ import Togglable from "../components/Togglable";
 import Blog from "../components/Blog";
 import BlogForm from "../components/BlogForm";
 import blogService from "../services/blogs";
-import { activeUser } from "../reducers/userReducer";
 
+import { activeUser } from "../reducers/userReducer";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 

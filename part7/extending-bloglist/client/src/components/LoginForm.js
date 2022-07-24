@@ -1,8 +1,9 @@
+import loginService from "../services/login";
+import blogService from "../services/blogs";
+
+import { activeUser } from "../reducers/userReducer";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
-import loginService from "../services/login";
-import { activeUser } from "../reducers/userReducer";
-import blogService from "../services/blogs";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
