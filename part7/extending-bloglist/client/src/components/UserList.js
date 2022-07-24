@@ -6,7 +6,6 @@ const UserList = () => {
   const dispatch = useDispatch();
 
   const userList = useSelector((state) => state.userList);
-  console.log(userList);
 
   useEffect(() => {
     dispatch(initializeUserList());
@@ -16,17 +15,21 @@ const UserList = () => {
     <div>
       <h2>Users</h2>
       <table>
-        <tr>
-          <th>Name</th>
-          <th>Blogs Posted</th>
-        </tr>
-        {userList &&
-          userList.map((user) => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.blogs.length}</td>
-            </tr>
-          ))}
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Blogs Posted</th>
+          </tr>
+        </thead>
+        <tbody>
+          {userList &&
+            userList.map((user) => (
+              <tr key={user.id}>
+                <td>{user.name}</td>
+                <td>{user.blogs.length}</td>
+              </tr>
+            ))}
+        </tbody>
       </table>
     </div>
   );
