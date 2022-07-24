@@ -29,6 +29,13 @@ const remove = (id) => {
   return request.then((response) => response.data);
 };
 
-const blogService = { getAll, create, update, remove, setToken };
+const comment = (id, comment) => {
+  const config = { headers: { Authorization: token } };
+  const request = axios.post(`${baseUrl}/${id}/comments`, { comment }, config);
+  const check = request.then((response) => response.data);
+  return check;
+};
+
+const blogService = { getAll, create, update, remove, comment, setToken };
 
 export default blogService;
