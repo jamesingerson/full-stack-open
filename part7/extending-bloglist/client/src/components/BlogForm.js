@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { setNotification } from "../reducers/notificationReducer";
 import { createBlog } from "../reducers/blogReducer";
 import { useDispatch } from "react-redux";
@@ -6,61 +5,33 @@ import { useDispatch } from "react-redux";
 const BlogForm = () => {
   const dispatch = useDispatch();
 
-  const [newTitle, setNewTitle] = useState("");
-  const [newAuthor, setNewAuthor] = useState("");
-  const [newUrl, setNewUrl] = useState("");
-
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value);
-  };
-
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value);
-  };
-
-  const handleUrlChange = (event) => {
-    setNewUrl(event.target.value);
-  };
-
   const addBlog = (event) => {
     event.preventDefault();
-    dispatch(createBlog(newTitle, newAuthor, newUrl));
-    dispatch(setNotification(`New blog ${newTitle} added`));
+    dispatch(
+      createBlog(
+        event.target.title.value,
+        event.target.author.value,
+        event.target.url.value
+      )
+    );
+    dispatch(setNotification(`New blog ${event.target.title.value} added`));
 
-    setNewTitle("");
-    setNewAuthor("");
-    setNewUrl("");
+    event.target.title.value = "";
+    event.target.author.value = "";
+    event.target.url.value = "";
   };
 
   return (
     <form onSubmit={addBlog}>
       <h2>new post</h2>
       <p>
-        title:{" "}
-        <input
-          value={newTitle}
-          onChange={handleTitleChange}
-          placeholder="Title"
-          id="title"
-        />
+        title: <input placeholder="Title" name="title" id="title" />
       </p>
       <p>
-        author:{" "}
-        <input
-          value={newAuthor}
-          onChange={handleAuthorChange}
-          placeholder="Author"
-          id="author"
-        />
+        author: <input placeholder="Author" name="author" id="author" />
       </p>
       <p>
-        url:{" "}
-        <input
-          value={newUrl}
-          onChange={handleUrlChange}
-          placeholder="Url"
-          id="url"
-        />
+        url: <input placeholder="Url" name="url" id="url" />
       </p>
       <button type="submit" id="submit">
         Submit
