@@ -34,3 +34,13 @@ content-type: application/json
 DELETE http://localhost:3003/api/blogs/62cd4751fe2d9dadfbbc87d1 HTTP/1.1
 content-type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphbWVzaSIsImlkIjoiNjJjZDIyY2QxMjU5YWQwNDcyOTNiNzg4IiwiaWF0IjoxNjU3NjEzODE4fQ.BLkvcfzfa6V4__nQxvA9mPJYeNIHxl_C3GiONJPjFvg
+
+###
+
+POST http://localhost:3003/api/blogs/62dd0436d0f8ea9c5b84653b/comments HTTP/1.1
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphbWVzaSIsImlkIjoiNjJjZDIyY2QxMjU5YWQwNDcyOTNiNzg4IiwiaWF0IjoxNjU3NjEzODE4fQ.BLkvcfzfa6V4__nQxvA9mPJYeNIHxl_C3GiONJPjFvg
+
+{
+    "comment": "another one"
+}

@@ -36,6 +36,16 @@ const SingleBlog = () => {
               <button onClick={() => handleRemoval(blog)}>Remove</button>
             </p>
           )}
+          {blog.comments.length > 0 && (
+            <>
+              <h4>Comments:</h4>
+              <ul>
+                {blog.comments.map((comment) => (
+                  <li key={comment}>{comment}</li>
+                ))}
+              </ul>
+            </>
+          )}
         </>
       )}
     </>
