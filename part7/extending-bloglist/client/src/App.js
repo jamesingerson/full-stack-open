@@ -1,17 +1,20 @@
 import Notification from "./components/Notification";
-import blogService from "./services/blogs";
+import UserList from "./components/UserList";
 import Home from "./components/Home";
+import blogService from "./services/blogs";
 
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { initializeBlogs } from "./reducers/blogReducer";
 import { activeUser } from "./reducers/userReducer";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { initializeBlogs } from "./reducers/blogReducer";
 import { Routes, Route, Link } from "react-router-dom";
 
 import "./index.css";
 
 const App = () => {
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(initializeBlogs());
@@ -26,6 +29,13 @@ const App = () => {
     }
   }, []);
 
+  const handleLogout = async (event) => {
+    event.preventDefault();
+    window.localStorage.removeItem("loggedInBlogAppUser");
+    blogService.setToken("");
+    dispatch(activeUser(null));
+  };
+
   const padding = {
     padding: 5,
   };
@@ -39,13 +49,19 @@ const App = () => {
         <Link style={padding} to="/users">
           Users
         </Link>
+        {user && (
+          <span>
+            {" "}
+            {user.name} logged in <button onClick={handleLogout}>Logout</button>
+          </span>
+        )}
       </div>
 
-      <h2>blogs</h2>
+      <h2>Blog List</h2>
       <Notification />
 
       <Routes>
-        <Route path="/users" element={<></>} />
+        <Route path="/users" element={<UserList />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </div>
