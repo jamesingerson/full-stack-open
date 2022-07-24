@@ -2,6 +2,7 @@ import Notification from "./components/Notification";
 import UserList from "./components/UserList";
 import Home from "./components/Home";
 import SingleUser from "./components/SingleUser";
+import SingleBlog from "./components/SingleBlog";
 import blogService from "./services/blogs";
 
 import { activeUser } from "./reducers/userReducer";
@@ -64,6 +65,7 @@ const App = () => {
       <Notification />
 
       <Routes>
+        <Route path="/blogs/:id" element={<SingleBlog />} />
         <Route path="/users/:id" element={<SingleUser />} />
         <Route path="/users" element={<UserList />} />
         <Route path="/" element={<Home />} />

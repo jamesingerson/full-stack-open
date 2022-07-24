@@ -1,8 +1,8 @@
 import LoginForm from "../components/LoginForm";
 import Togglable from "../components/Togglable";
-import Blog from "../components/Blog";
 import BlogForm from "../components/BlogForm";
 
+import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
 
@@ -21,11 +21,15 @@ const Home = () => {
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
             <BlogForm />
           </Togglable>
-          {[...blogs]
-            .sort((a, b) => b.likes - a.likes)
-            .map((blog) => (
-              <Blog key={blog.id} blog={blog} user={user} />
-            ))}
+          <ul>
+            {[...blogs]
+              .sort((a, b) => b.likes - a.likes)
+              .map((blog) => (
+                <li key={blog.id}>
+                  <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                </li>
+              ))}
+          </ul>
         </div>
       )}
     </>
