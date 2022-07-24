@@ -32,11 +32,7 @@ const Blog = ({ blog, user }) => {
         {blog.title} {blog.author}
         <button onClick={() => toggleExpanded()}>View Details</button>
       </div>
-      <div
-        style={showWhenExpanded}
-        className="expanded-blog"
-        data-cy={blog.title}
-      >
+      <div style={showWhenExpanded} className="expanded-blog">
         <p>
           {blog.title}{" "}
           <button onClick={() => toggleExpanded()}>Collapse</button>
@@ -47,7 +43,7 @@ const Blog = ({ blog, user }) => {
           <button onClick={() => dispatch(likeBlog(blog))}>Like</button>
         </p>
         <p>{blog.author}</p>
-        {user.username === blog.user.username && (
+        {blog.user && user.username === blog.user.username && (
           <button onClick={() => handleRemoval(blog)}>Remove</button>
         )}
       </div>
