@@ -59,12 +59,23 @@ const resolvers = {
     authorCount: async () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
       if (!args.author && !args.genre) {
-        return Book.find({});
+        return Book.find({}).populate("author", {
+          name: 1,
+          id: 1,
+          born: 1,
+          bookCount: 1,
+        });
       }
-      let filteredBooks = await Book.find({});
+      let filteredBooks = await Book.find({}).populate("author", {
+        name: 1,
+        id: 1,
+        born: 1,
+        bookCount: 1,
+      });
+      const author = await Author.findOne({ name: args.author });
       args.author &&
         (filteredBooks = filteredBooks.filter(
-          (book) => book.author === args.author
+          (book) => book.author.name === author.name
         ));
       args.genre &&
         (filteredBooks = filteredBooks.filter((book) =>
@@ -73,11 +84,15 @@ const resolvers = {
       return filteredBooks;
     },
 
-    allAuthors: async () =>
-      (await Author.find({})).map(async (author) => ({
-        ...author,
-        bookCount: (await Book.find({ author: author.name })).length,
-      })),
+    allAuthors: async () => {
+      return Author.find({});
+    },
+  },
+
+  Author: {
+    bookCount: async (root) => {
+      return Book.collection.countDocuments({ author: root._id });
+    },
   },
 
   Mutation: {
@@ -94,17 +109,19 @@ const resolvers = {
       return book;
     },
 
-    //TODO
-    /*editAuthor: (root, args) => {
-      const author = authors.find((a) => a.name === args.name);
+    editAuthor: async (root, args) => {
+      const filter = { name: args.name };
+      const update = { born: args.setBornTo };
+      const author = await Author.findOneAndUpdate(filter, update, {
+        returnOriginal: false,
+      });
+
       if (!author) {
         return null;
       }
 
-      const updatedAuthor = { ...author, born: args.setBornTo };
-      authors = authors.map((a) => (a.name === args.name ? updatedAuthor : a));
-      return updatedAuthor;
-    },*/
+      return author;
+    },
   },
 };
 
