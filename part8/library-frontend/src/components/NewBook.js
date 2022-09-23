@@ -10,9 +10,14 @@ const NewBook = (props) => {
   const [genres, setGenres] = useState([]);
 
   const [createBook] = useMutation(CREATE_BOOK, {
-    refetchQueries: [{ query: ALL_BOOKS }],
+    //refetchQueries: [{ query: ALL_BOOKS }],
     onError: (error) => {
       console.log(error.graphQLErrors[0].message);
+    },
+    update: (cache, response) => {
+      cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
+        return { allBooks: allBooks.concat(response.data.addBook) };
+      });
     },
   });
 
@@ -24,7 +29,12 @@ const NewBook = (props) => {
     event.preventDefault();
 
     createBook({
-      variables: { title, published: parseInt(published), author, genres },
+      variables: {
+        title,
+        published: parseInt(published),
+        author,
+        genres,
+      },
     });
 
     setTitle("");

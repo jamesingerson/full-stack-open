@@ -50,25 +50,27 @@ const Authors = (props) => {
         </tbody>
       </table>
 
-      <form onSubmit={submit}>
-        <h2>Set Birth Year</h2>
-        <select onChange={({ target }) => setName(target.value)}>
-          {authors.map((a) => (
-            <option key={a.name} value={a.name}>
-              {a.name}
-            </option>
-          ))}
-        </select>
-        <div>
-          Born
-          <input
-            type="number"
-            value={born}
-            onChange={({ target }) => setBorn(target.value)}
-          />
-        </div>
-        <button type="submit">Update Author</button>
-      </form>
+      {props.canEdit && (
+        <form onSubmit={submit}>
+          <h2>Set Birth Year</h2>
+          <select onChange={({ target }) => setName(target.value)}>
+            {authors.map((a) => (
+              <option key={a.name} value={a.name}>
+                {a.name}
+              </option>
+            ))}
+          </select>
+          <div>
+            Born
+            <input
+              type="number"
+              value={born}
+              onChange={({ target }) => setBorn(target.value)}
+            />
+          </div>
+          <button type="submit">Update Author</button>
+        </form>
+      )}
     </div>
   );
 };
