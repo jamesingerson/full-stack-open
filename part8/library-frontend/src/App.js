@@ -3,8 +3,9 @@ import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 import LoginForm from "./components/LoginForm";
-import { ALL_AUTHORS, ALL_BOOKS } from "./queries";
+import { ALL_AUTHORS, ALL_BOOKS, ME } from "./queries";
 import { useApolloClient, useQuery } from "@apollo/client";
+import Recommend from "./components/Recommend";
 
 const Notify = ({ errorMessage }) => {
   if (!errorMessage) {
@@ -23,6 +24,9 @@ const App = () => {
     pollInterval: 2000,
   });
   const books = useQuery(ALL_BOOKS, {
+    pollInterval: 2000,
+  });
+  const user = useQuery(ME, {
     pollInterval: 2000,
   });
 
@@ -56,6 +60,7 @@ const App = () => {
         ) : (
           <>
             <button onClick={() => setPage("add")}>add book</button>
+            <button onClick={() => setPage("recommended")}>recommended</button>
             <button onClick={logout}>logout</button>
           </>
         )}
@@ -70,6 +75,12 @@ const App = () => {
       <Books show={page === "books"} books={books.data.allBooks} />
 
       <NewBook show={page === "add"} />
+
+      <Recommend
+        show={page === "recommended"}
+        books={books.data.allBooks}
+        user={user.data.me}
+      />
 
       <LoginForm
         show={page === "login"}
