@@ -1,24 +1,33 @@
-import { useState } from "react";
+import { useLazyQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
+import { ALL_BOOKS } from "../queries";
 import "../styles.css";
 
 const Books = (props) => {
   const [filter, setFilter] = useState("");
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [fetchBooks, result] = useLazyQuery(ALL_BOOKS, {
+    fetchPolicy: "no-cache",
+  });
+
+  useEffect(() => {
+    if (result.data) {
+      setFilteredBooks(result.data.allBooks);
+    } else if (filter === "") {
+      setFilteredBooks(props.allBooks);
+    }
+  }, [filter, props.allBooks, result]);
+
+  const allGenres = new Set(props.allBooks.map((book) => book.genres).flat());
+
+  const filterChange = (filter) => {
+    setFilter(filter);
+    fetchBooks({ variables: { genre: filter } });
+  };
 
   if (!props.show) {
     return null;
   }
-
-  const books = props.books;
-  const allGenres = new Set(books.map((book) => book.genres).flat());
-
-  const filteredBooks = filter
-    ? books.filter((book) => book.genres.includes(filter))
-    : books;
-  console.log(filteredBooks);
-
-  const filterChange = (filter) => {
-    setFilter(filter);
-  };
 
   return (
     <div>
