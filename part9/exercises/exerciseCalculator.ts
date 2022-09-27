@@ -40,11 +40,14 @@ function describeRating(rating: Rating): string {
 
 const parseArguments = (args): ExerciseInput => {
   if (args.length < 4) throw new Error("Not enough arguments");
-  if (args.length > 4) throw new Error("Too many arguments");
 
-  if (onlyNumbers(args[2]) && !isNaN(Number(args[3]))) {
+  const exercises = args.slice(3).map((str) => {
+    return Number(str);
+  });
+
+  if (onlyNumbers(exercises) && !isNaN(Number(args[3]))) {
     return {
-      exercises: args[2],
+      exercises,
       target: Number(args[3]),
     };
   } else {
@@ -72,7 +75,8 @@ const calculateExercises = (exercises: number[], target: number): Result => {
 };
 
 try {
-  console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+  const { exercises, target } = parseArguments(process.argv);
+  console.log(calculateExercises(exercises, target));
 } catch (error: unknown) {
   let errorMessage = "Something went wrong.";
   if (error instanceof Error) {
