@@ -15,7 +15,7 @@ interface ExerciseInput {
   target: number;
 }
 
-function onlyNumbers(array: any[]) {
+function onlyNumbers(array: number[]) {
   return array.every((element: number) => {
     return typeof element === "number" && !isNaN(element);
   });
@@ -38,7 +38,8 @@ function describeRating(rating: Rating): string {
   }
 }
 
-const parseArguments = (args): ExerciseInput => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const parseArguments = (args: any[]): ExerciseInput => {
   if (args.length < 4) throw new Error("Not enough arguments");
 
   const exercises = args.slice(3).map((str) => {
