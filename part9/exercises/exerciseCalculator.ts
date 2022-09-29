@@ -10,10 +10,10 @@ interface Result {
   average: number;
 }
 
-interface ExerciseInput {
-  exercises: Array<number>;
-  target: number;
-}
+// interface ExerciseInput {
+//   exercises: Array<number>;
+//   target: number;
+// }
 
 function onlyNumbers(array: number[]) {
   return array.every((element: number) => {
@@ -39,22 +39,22 @@ function describeRating(rating: Rating): string {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const parseArguments = (args: any[]): ExerciseInput => {
-  if (args.length < 4) throw new Error("Not enough arguments");
+// const parseArguments = (args: any[]): ExerciseInput => {
+//   if (args.length < 4) throw new Error("Not enough arguments");
 
-  const exercises = args.slice(3).map((str) => {
-    return Number(str);
-  });
+//   const exercises = args.slice(3).map((str) => {
+//     return Number(str);
+//   });
 
-  if (onlyNumbers(exercises) && !isNaN(Number(args[3]))) {
-    return {
-      exercises,
-      target: Number(args[3]),
-    };
-  } else {
-    throw new Error("Provided values were not numbers!");
-  }
-};
+//   if (onlyNumbers(exercises) && !isNaN(Number(args[3]))) {
+//     return {
+//       exercises,
+//       target: Number(args[3]),
+//     };
+//   } else {
+//     throw new Error("Provided values were not numbers!");
+//   }
+// };
 
 const calculateExercises = (exercises: number[], target: number): Result => {
   const periodLength = exercises.length;
@@ -75,13 +75,15 @@ const calculateExercises = (exercises: number[], target: number): Result => {
   };
 };
 
-try {
-  const { exercises, target } = parseArguments(process.argv);
-  console.log(calculateExercises(exercises, target));
-} catch (error: unknown) {
-  let errorMessage = "Something went wrong.";
-  if (error instanceof Error) {
-    errorMessage += " Error: " + error.message;
-  }
-  console.log(errorMessage);
-}
+// try {
+//   const { exercises, target } = parseArguments(process.argv);
+//   console.log(calculateExercises(exercises, target));
+// } catch (error: unknown) {
+//   let errorMessage = "Something went wrong.";
+//   if (error instanceof Error) {
+//     errorMessage += " Error: " + error.message;
+//   }
+//   console.log(errorMessage);
+// }
+
+export { calculateExercises, onlyNumbers };
