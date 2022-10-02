@@ -3,7 +3,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { apiBaseUrl } from "../constants";
 import { Patient } from "../types";
-import { useStateValue } from "../state";
+import { setActiveProfile, useStateValue } from "../state";
 import { Box, Typography } from "@material-ui/core";
 import MaleIcon from "@mui/icons-material/Male";
 import FemaleIcon from "@mui/icons-material/Female";
@@ -22,7 +22,7 @@ const PatientProfile = () => {
           const { data: patientData } = await axios.get<Patient>(
             `${apiBaseUrl}/patients/${id}`
           );
-          dispatch({ type: "SET_ACTIVE_PROFILE", payload: patientData });
+          dispatch(setActiveProfile(patientData));
         } catch (e) {
           console.error(e);
         }
