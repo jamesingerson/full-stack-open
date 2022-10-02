@@ -1,0 +1,51 @@
+GET http://localhost:3001/api/notes/
+
+###
+
+POST http://localhost:3001/api/notes/ HTTP/1.1
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYyY2NiYmE0MDc0M2FmYjg3MzMwNDMzNCIsImlhdCI6MTY1NzU5ODkwMH0.Otm8GyoesMLBbn0KM2g340kY-nNhjjj0s9UPuac4lNk
+
+{
+    "content": "authorization test",
+    "important": true,
+    "userId": "62ccbba40743afb873304334"
+}
+
+###
+
+GET http://localhost:3001/unknown/end/point/
+
+###
+
+PUT http://localhost:3001/api/notes/62c4fd8029aca69dbdf3c5aa HTTP/1.1
+content-type: application/json
+
+{
+    "content": "another test with a user",
+    "important": true,
+}
+
+###
+
+GET http://localhost:3001/api/users/
+
+###
+POST http://localhost:3001/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "jamesi",
+    "name": "James Ingerson",
+    "password": "securepassword"
+}
+
+###
+
+POST http://localhost:3001/api/login/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "root",
+    "password": "salainen"
+}

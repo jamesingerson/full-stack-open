@@ -1,0 +1,17 @@
+GET http://localhost:3000/api/diaries
+
+###
+
+GET http://localhost:3000/api/diaries/1
+
+###
+
+POST http://localhost:3000/api/diaries HTTP/1.1
+content-type: application/json
+
+{
+  "date": "2022-10-01",
+  "weather": "rainy",
+  "visibility": "poor",
+  "comment": "Today is pretty damp."
+}
