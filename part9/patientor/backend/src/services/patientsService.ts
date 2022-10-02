@@ -32,7 +32,7 @@ const getPublicPatient = (id: string): PublicPatient => {
   const {
     // unused ars ignore pattern not respected here for some reason
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ssn: _,
+    //ssn: _,
     ...publicPatient
   } = patient;
 
