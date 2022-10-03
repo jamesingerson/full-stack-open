@@ -1,6 +1,9 @@
+import { useStateValue } from "../state";
 import { Entry } from "../types";
 
 const EntriesList = ({ entries }: { entries: Entry[] }) => {
+  const [{ diagnoses }] = useStateValue();
+
   return (
     <div>
       <h2>Entries</h2>
@@ -14,7 +17,9 @@ const EntriesList = ({ entries }: { entries: Entry[] }) => {
               <p>Diagnoses:</p>
               <ul>
                 {e.diagnosisCodes?.map((d) => (
-                  <li key={d}>{d}</li>
+                  <li key={d}>
+                    {d}: {diagnoses[d].name}
+                  </li>
                 ))}
               </ul>
             </>
