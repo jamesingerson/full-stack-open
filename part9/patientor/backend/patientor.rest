@@ -11,10 +11,13 @@ content-type: application/json
 
 {
   "date": "2022-01-02",
-  "type": "OccupationalHealthcare",
+  "type": "Hospital",
   "specialist": "Dr James",
   "diagnosisCodes": ["S62.5"],
   "description":
     "He's done it again",
-  "employerName": "Steve McQwark"
+  "discharge": {
+    "date": "2022-01-16",
+    "criteria": "Probably hasn't died."
+  }
 }

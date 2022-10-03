@@ -22,6 +22,14 @@ const getPatient = (id: string): PublicPatient => {
   return patient;
 };
 
+const getCompletePatient = (id: string): Patient => {
+  const patient = patientsData.find((p) => p.id === id);
+  if (!patient) {
+    throw new Error("No patient found with that id!");
+  }
+  return patient;
+};
+
 const addPatient = (patient: NewPatient): Patient => {
   const newPatient = {
     id: uuid(),
@@ -33,60 +41,10 @@ const addPatient = (patient: NewPatient): Patient => {
   return newPatient;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const addEntry = (patientId: string, rawEntry: any) => {
-  let patient: Patient;
-  let entry: Entry;
-  try {
-    patient = patientsData.find((p) => p.id === patientId) as Patient;
-    if (patient === undefined) throw new Error("Patient not found.");
-  } catch {
+const addEntry = (patiendId: string, entry: Entry): Entry => {
+  const patient: Patient = getCompletePatient(patiendId);
+  if (!patient) {
     throw new Error("Patient not found.");
-  }
-  if (
-    !rawEntry.date ||
-    !rawEntry.type ||
-    !rawEntry.specialist ||
-    !rawEntry.description
-  ) {
-    throw new Error("Essential field not provided.");
-  }
-  switch (rawEntry.type) {
-    case "Hospital":
-      if (rawEntry.discharge) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        entry = {
-          ...rawEntry,
-          id: uuid(),
-        };
-      } else {
-        throw new Error("Required field missing.");
-      }
-      break;
-    case "OccupationalHealthcare":
-      if (rawEntry.employerName) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        entry = {
-          ...rawEntry,
-          id: uuid(),
-        };
-      } else {
-        throw new Error("Required field missing.");
-      }
-      break;
-    case "HealthCheck":
-      if (rawEntry.healthCheckRating) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        entry = {
-          ...rawEntry,
-          id: uuid(),
-        };
-      } else {
-        throw new Error("Required field missing.");
-      }
-      break;
-    default:
-      throw new Error("Unspecified type.");
   }
   patient.entries.push(entry);
   return entry;
