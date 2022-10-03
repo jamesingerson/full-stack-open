@@ -48,6 +48,7 @@ const EntriesList = ({ entries }: { entries: Entry[] }) => {
           )}
           <p>Diagnosed by: {e.specialist}</p>
           <EntryDetails entry={e} />
+          <hr />
         </div>
       ))}
     </div>
