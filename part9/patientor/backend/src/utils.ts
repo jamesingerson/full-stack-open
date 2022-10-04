@@ -96,7 +96,10 @@ const isHealthCheckRating = (param: any): param is HealthCheckRating => {
 const parseHealthCheckRating = (
   healthCheckRating: unknown
 ): HealthCheckRating => {
-  if (!healthCheckRating || !isHealthCheckRating(healthCheckRating)) {
+  if (
+    healthCheckRating === undefined ||
+    !isHealthCheckRating(healthCheckRating)
+  ) {
     throw new Error(
       "Incorrect or missing health check rating: " + healthCheckRating
     );
@@ -112,7 +115,7 @@ function onlyStrings(array: string[]) {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parseDiagnoses = (diagnoses: any): string[] | undefined => {
-  if (!diagnoses) {
+  if (diagnoses.length === 0) {
     return [];
   }
 

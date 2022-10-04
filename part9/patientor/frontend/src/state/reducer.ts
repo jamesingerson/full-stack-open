@@ -1,5 +1,5 @@
 import { State } from "./state";
-import { Diagnosis, Patient } from "../types";
+import { Diagnosis, Entry, Patient } from "../types";
 
 export type Action =
   | {
@@ -12,11 +12,16 @@ export type Action =
     }
   | {
       type: "SET_ACTIVE_PROFILE";
-      payload: Patient;
+      payload: Patient | undefined;
     }
   | {
       type: "SET_DIAGNOSES_LIST";
       payload: Diagnosis[];
+    }
+  | {
+      type: "ADD_ENTRY";
+      patientId: string;
+      payload: Entry;
     };
 
 export const setPatientList = (patientListFromApi: Patient[]): Action => {
@@ -26,7 +31,9 @@ export const setPatientList = (patientListFromApi: Patient[]): Action => {
   };
 };
 
-export const setActiveProfile = (activeProfile: Patient): Action => {
+export const setActiveProfile = (
+  activeProfile: Patient | undefined
+): Action => {
   return {
     type: "SET_ACTIVE_PROFILE",
     payload: activeProfile,
@@ -44,6 +51,14 @@ export const setDiagnosesList = (diagnosesListFromApi: Diagnosis[]): Action => {
   return {
     type: "SET_DIAGNOSES_LIST",
     payload: diagnosesListFromApi,
+  };
+};
+
+export const addEntry = (patientId: string, newEntry: Entry): Action => {
+  return {
+    type: "ADD_ENTRY",
+    patientId,
+    payload: newEntry,
   };
 };
 
@@ -81,6 +96,27 @@ export const reducer = (state: State, action: Action): State => {
             (list, diagnosis) => ({ ...list, [diagnosis.code]: diagnosis }),
             {}
           ),
+        },
+      };
+    case "ADD_ENTRY":
+      return {
+        ...state,
+        activeProfile: {
+          ...state.patients[action.patientId],
+          entries: [
+            ...state.patients[action.patientId].entries,
+            action.payload,
+          ],
+        },
+        patients: {
+          ...state.patients,
+          [action.patientId]: {
+            ...state.patients[action.patientId],
+            entries: [
+              ...state.patients[action.patientId].entries,
+              action.payload,
+            ],
+          },
         },
       };
     default:

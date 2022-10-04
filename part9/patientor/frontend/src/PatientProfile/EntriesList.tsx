@@ -1,3 +1,4 @@
+import React from "react";
 import { useStateValue } from "../state";
 import { Entry } from "../types";
 import HealthCheckDetails from "./HealthCheckDetails";
@@ -34,7 +35,7 @@ const EntriesList = ({ entries }: { entries: Entry[] }) => {
           <p>
             {e.date} <i>{e.description}</i>
           </p>
-          {!!e.diagnosisCodes && (
+          {Object.keys(diagnoses).length !== 0 && !!e.diagnosisCodes && (
             <>
               <p>Diagnoses:</p>
               <ul>

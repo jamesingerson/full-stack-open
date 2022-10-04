@@ -5,7 +5,7 @@ import { Action } from "./reducer";
 
 export type State = {
   patients: { [id: string]: Patient };
-  activeProfile: Patient;
+  activeProfile: Patient | undefined;
   diagnoses: { [id: string]: Diagnosis };
 };
 
