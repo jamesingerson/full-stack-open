@@ -40,8 +40,4 @@ router.post("/:id/entries", (req, res) => {
   }
 });
 
-// router.post("/", (_req, res) => {
-//   res.send("Saving a diagnosis!");
-// });
-
 export default router;

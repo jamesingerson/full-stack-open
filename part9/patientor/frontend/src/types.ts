@@ -75,6 +75,8 @@ export interface EntryForm extends BaseEntry {
   type: string;
   healthCheckRating?: HealthCheckRating;
   employerName?: string;
-  sickLeave?: SickLeave;
-  discharge?: Discharge;
+  sickLeaveStart?: string;
+  sickLeaveEnd?: string;
+  dischargeDate?: string;
+  dischargeCriteria: string;
 }

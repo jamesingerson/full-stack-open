@@ -16,11 +16,18 @@ export type HealthCheckRatingOption = {
   label: string;
 };
 
+export type TypeSelectOption = {
+  value: ValidEntry;
+  label: string;
+};
+
+type ValidEntry = "Hospital" | "HealthCheck" | "OccupationalHealthcare";
+
 // props for select field component
 type SelectFieldProps = {
   name: string;
   label: string;
-  options: HealthCheckRatingOption[];
+  options: HealthCheckRatingOption[] | TypeSelectOption[];
 };
 
 const FormikSelect = ({ field, ...props }: FieldProps) => (

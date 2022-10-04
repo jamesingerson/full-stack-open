@@ -147,16 +147,16 @@ export const toNewEntry = (object: any): Entry => {
         ...baseEntry,
         type: "Hospital",
         discharge: {
-          date: parseDate(object.discharge.date),
-          criteria: parseField(object.discharge.criteria),
+          date: parseDate(object.dischargeDate),
+          criteria: parseField(object.dischargeCriteria),
         },
       };
     case "OccupationalHealthcare":
       let sickLeave;
-      if (object.sickLeaveStartDate && object.sickLeaveEndDate) {
+      if (object.sickLeaveStart && object.sickLeaveEnd) {
         sickLeave = {
-          startDate: parseDate(object.sickLeave.startDate),
-          endDate: parseDate(object.sickLeave.endDate),
+          startDate: parseDate(object.sickLeaveStart),
+          endDate: parseDate(object.sickLeaveEnd),
         };
       }
       return {
