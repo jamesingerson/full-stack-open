@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Button } from "@material-ui/core";
 import { Field, Formik, Form } from "formik";
+import moment from "moment";
 
 import {
   TextField,
@@ -42,12 +43,16 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
       onSubmit={onSubmit}
       validate={(values) => {
         const requiredError = "Field is required";
+        const malformedError = "Field is malformed";
         const errors: { [field: string]: string } = {};
         if (!values.description) {
           errors.description = requiredError;
         }
         if (!values.date) {
           errors.date = requiredError;
+        }
+        if (!moment(values.date, "YYYY-MM-DD", true).isValid()) {
+          errors.date = malformedError;
         }
         if (!values.specialist) {
           errors.specialist = requiredError;
