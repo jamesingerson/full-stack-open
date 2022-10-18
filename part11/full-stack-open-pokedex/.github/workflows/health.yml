@@ -1,0 +1,16 @@
+# name: Health Check
+
+# on:
+#   schedule:
+#     - cron: '15 * * * *'
+
+# jobs:
+#   health_check:
+#     runs-on: ubuntu-20.04
+#     steps:
+#       - name: Check the deployed service URL
+#         uses: jtalk/url-health-check-action@v2
+#         with:
+#           url: https://nameless-hollows-81509.herokuapp.com/
+#           max-attempts: 3 
+#           retry-delay: 5s 

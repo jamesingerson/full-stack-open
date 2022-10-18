@@ -56,4 +56,8 @@ Learning React, Redux, Node.js, MongoDB, GraphQL, TypeScript, React Native, GitH
   <img width="100%" src="./certs/certificate-fullstack-reactnative.png" alt="Full Stack Open React Native Certificate">
 </p>
 
+## CI/CD Certificate
 
+<p align="center">
+  <img width="100%" src="./certs/certificate-fullstack-cicd.png" alt="Full Stack Open CICD Certificate">
+</p>
