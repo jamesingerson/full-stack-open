@@ -5,40 +5,32 @@ const { SECRET } = require("../util/config");
 
 const { Note, User } = require("../models");
 
-// router.get("/", async (req, res) => {
-//   const notes = await Note.findAll();
-//   res.json(notes);
-// });
+const { Op } = require("sequelize");
 
 router.get("/", async (req, res) => {
+  const where = {};
+
+  if (req.query.important) {
+    where.important = req.query.important === "true";
+  }
+
+  if (req.query.search) {
+    where.content = {
+      [Op.substring]: req.query.search,
+    };
+  }
+
   const notes = await Note.findAll({
     attributes: { exclude: ["userId"] },
     include: {
       model: User,
       attributes: ["name"],
     },
+    where,
   });
+
   res.json(notes);
 });
-
-// router.post("/", async (req, res) => {
-//   try {
-//     const note = await Note.create(req.body);
-//     res.json(note);
-//   } catch (error) {
-//     return res.status(400).json({ error });
-//   }
-// });
-
-// router.post("/", async (req, res) => {
-//   try {
-//     const user = await User.findOne();
-//     const note = await Note.create({ ...req.body, userId: user.id });
-//     res.json(note);
-//   } catch (error) {
-//     return res.status(400).json({ error });
-//   }
-// });
 
 const tokenExtractor = (req, res, next) => {
   const authorization = req.get("authorization");
