@@ -4,6 +4,8 @@
   "description": "Full Stack Open Relational Databases follow along",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon index.js",
+    "migration:down": "node util/rollback.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "James Ingerson",
@@ -16,6 +18,7 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.8.0",
-    "sequelize": "^6.25.3"
+    "sequelize": "^6.25.3",
+    "umzug": "^3.2.1"
   }
 }
