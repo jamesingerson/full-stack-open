@@ -67,3 +67,9 @@ Learning React, Redux, Node.js, MongoDB, GraphQL, TypeScript, React Native, GitH
 <p align="center">
   <img width="100%" src="./certs/certificate-fullstack-containers.png" alt="Full Stack Open Containers Certificate">
 </p>
+
+## Relational Databases Certificate
+
+<p align="center">
+  <img width="100%" src="./certs/certificate-fullstack-psql.png" alt="Full Stack Open Relational Databases Certificate">
+</p>
