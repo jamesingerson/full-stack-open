@@ -4,21 +4,41 @@ const router = require("express").Router();
 
 const { User, Note, Team } = require("../models");
 
-router.get("/", async (req, res) => {
-  const users = await User.findAll({
+router.get("/:id", async (req, res) => {
+  const user = await User.findByPk(req.params.id, {
+    attributes: { exclude: [""] },
     include: [
       {
         model: Note,
         attributes: { exclude: ["userId"] },
       },
       {
-        model: Team,
-        attributes: ["name", "id"],
-        through: { attributes: [] },
+        model: Note,
+        as: "marked_notes",
+        attributes: { exclude: ["userId"] },
+        through: {
+          attributes: [],
+        },
+        include: {
+          model: User,
+          attributes: ["name"],
+        },
       },
     ],
   });
-  res.json(users);
+
+  if (!user) {
+    return res.status(404).end();
+  }
+
+  let teams = undefined;
+  if (req.query.teams) {
+    teams = await user.getTeams({
+      attributes: ["name"],
+      joinTableAttributes: [],
+    });
+  }
+  res.json({ ...user.toJSON(), teams });
 });
 
 router.post("/", async (req, res) => {
